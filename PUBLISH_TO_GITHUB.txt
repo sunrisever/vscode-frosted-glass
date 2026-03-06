@@ -1,0 +1,11 @@
+﻿# Quick publish steps
+# Suggested repo name: vscode-frosted-glass
+
+cd C:\Users\28033\Desktop\vscode-frosted-glass\vscode-frosted-glass
+git init
+git add .
+git commit -m "Add VS Code frosted-glass (dark-theme-only) guide and script"
+
+git branch -M main
+git remote add origin <YOUR_GITHUB_REPO_URL>
+git push -u origin main
