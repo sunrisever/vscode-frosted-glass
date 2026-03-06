@@ -1,4 +1,4 @@
-﻿# VS Code Frosted Glass (Windows)
+﻿# VS Code Frosted Glass (Vibrancy Plugin Adapted for One Dark Pro)
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -10,16 +10,18 @@ A stable, scriptable setup for:
 - Window resize remains normal
 
 ## Important
-- Best with dark themes (light themes are not tuned).
-- Recommended theme: `One Dark Pro` (optional, not forced by script)
-- The script does not force a specific VS Code color theme.
+- Required extension: `Vibrancy Continued` (`illixion.vscode-vibrancy-continued`).
+- This project is tuned around One Dark Pro visual behavior; the script does not force One Dark Pro.
+- Other themes may not reproduce the same issue set, and may need different color tweaks.
 
 ## Demo
 ![demo-1](images/effect-demo-1.png)
 ![demo-2](images/effect-demo-2.png)
 ![demo-3](images/effect-demo-3.png)
+
 ## Environment
 - OS: Windows
+- Required extension: `illixion.vscode-vibrancy-continued`
 - VS Code install path: `D:\Microsoft VS Code`
 - Theme used in demo: `One Dark Pro`
 - Auto detect color scheme in demo: `false`
@@ -70,6 +72,3 @@ Re-run the script (updates overwrite patched install files).
 - Always run with Admin for install-path patching.
 - Script creates `.bak_*` backups.
 - To revert, restore backups or reinstall/update VS Code.
-
-
-
