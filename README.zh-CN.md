@@ -1,6 +1,6 @@
-﻿# VS Code Frosted Glass (Vibrancy Plugin Adapted for One Dark Pro)
+# VS Code Frosted Glass (Vibrancy Plugin Adapted for One Dark Pro)
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](README.md) | 简体中文
 
 这是一个可复现、可脚本化的方案，包含：
 - 编辑器正文透明（acrylic）
