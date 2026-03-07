@@ -8,6 +8,7 @@
 - 编辑区顶部 sticky 区保持不透明
 - 标题栏保持不透明，但窗口控制按钮可透明
 - 窗口大小可正常调节
+- **AI 编程助手支持**：内置 `CLAUDE.md` 和 `AGENTS.md`，兼容 Claude Code、Codex、OpenCode、OpenClaw
 
 ## 说明
 - 必需插件：`Vibrancy Continued`（扩展 ID：`illixion.vscode-vibrancy-continued`）。

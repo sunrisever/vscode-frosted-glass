@@ -8,6 +8,7 @@ A stable, scriptable setup for:
 - Opaque sticky scroll area (top fold area in editor)
 - Opaque title bar with transparent window control buttons
 - Window resize remains normal
+- **AI coding assistant support**: includes `CLAUDE.md` and `AGENTS.md` for Claude Code, Codex, OpenCode, and OpenClaw
 
 ## Important
 - Required extension: `Vibrancy Continued` (`illixion.vscode-vibrancy-continued`).
