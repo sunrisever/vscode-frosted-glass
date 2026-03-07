@@ -1,6 +1,6 @@
 # VS Code Frosted Glass — AI Coding Assistant Instructions
 
-> This file is for AI coding assistants (Claude Code, Codex, Cursor, etc.). It is optional and can be safely deleted.
+> This file is for AI coding assistants (Claude Code, Codex, Cursor, OpenCode, etc.). It is optional and can be safely deleted.
 
 ## Project Overview
 
