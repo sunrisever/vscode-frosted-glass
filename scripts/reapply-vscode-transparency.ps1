@@ -1,11 +1,13 @@
 ﻿param(
   [string]$VsCodeRoot = 'D:\Microsoft VS Code',
   [double]$Opacity = 0.35,
+  [string]$BackupRoot = '',
   [switch]$NoRestart
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$script:RunBackupDir = $null
 
 function Require-Admin {
   $id = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -27,10 +29,31 @@ function Get-BuildDir {
   $d.FullName
 }
 
+function Resolve-BackupDir {
+  param([string]$Root)
+  if ([string]::IsNullOrWhiteSpace($Root)) { return $null }
+  if (-not (Test-Path $Root)) {
+    New-Item -Path $Root -ItemType Directory -Force | Out-Null
+  }
+  $runDir = Join-Path $Root ("vscode-frosted-glass_" + (Get-Date -Format 'yyyyMMdd_HHmmss'))
+  New-Item -Path $runDir -ItemType Directory -Force | Out-Null
+  $runDir
+}
+
+function Get-BackupLeaf {
+  param([string]$Path)
+  ([System.IO.Path]::GetFullPath($Path) -replace '[:\\/\s]+', '_').Trim('_')
+}
 function Backup-File {
   param([string]$Path)
   $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-  $bak = "$Path.bak_reapply_$stamp"
+  if ($script:RunBackupDir) {
+    $leaf = Get-BackupLeaf -Path $Path
+    $bak = Join-Path $script:RunBackupDir ("${leaf}.bak_reapply_$stamp")
+  }
+  else {
+    $bak = "$Path.bak_reapply_$stamp"
+  }
   Copy-Item $Path $bak -Force
   $bak
 }
@@ -270,19 +293,20 @@ function Patch-MainJs {
   $re = [regex]::new($pat, [System.Text.RegularExpressions.RegexOptions]::Singleline)
   $m = $re.Match($raw)
   if (-not $m.Success) { throw 'Cannot find vibrancy block in main.js.' }
-
   $obj = $m.Groups[2].Value | ConvertFrom-Json
-  if ($null -eq $obj.config) { $obj | Add-Member -NotePropertyName 'config' -NotePropertyValue (@{}) }
+  $cfg = To-Hashtable $obj.config
 
-  $obj.config.type = 'acrylic'
-  $obj.config.opacity = $TargetOpacity
-  $obj.config.theme = 'Default Dark'
-  $obj.config.enableAutoTheme = $false
-  $obj.config.preventFlash = $true
-  $obj.config.disableThemeFixes = $true
-  $obj.config.disableFramelessWindow = $true
-  $obj.config.forceFramelessWindow = $false
-  $obj.themeCSS = Get-ThemeCss
+  $cfg.type = 'acrylic'
+  $cfg.opacity = $TargetOpacity
+  $cfg.theme = 'Default Dark'
+  $cfg.enableAutoTheme = $false
+  $cfg.preventFlash = $true
+  $cfg.disableThemeFixes = $true
+  $cfg.disableFramelessWindow = $true
+  $cfg.forceFramelessWindow = $false
+
+  $obj | Add-Member -NotePropertyName 'config' -NotePropertyValue $cfg -Force
+  $obj | Add-Member -NotePropertyName 'themeCSS' -NotePropertyValue (Get-ThemeCss) -Force
 
   $newJson = $obj | ConvertTo-Json -Depth 100 -Compress
   $newBlock = $m.Groups[1].Value + $newJson + $m.Groups[3].Value
@@ -316,6 +340,8 @@ try {
   $settings = Join-Path $env:APPDATA 'Code\User\settings.json'
   $codeExe = Join-Path $VsCodeRoot 'Code.exe'
 
+  $script:RunBackupDir = Resolve-BackupDir -Root $BackupRoot
+
   $b1 = Backup-File -Path $settings
   $b2 = Backup-File -Path $mainJs
   if (Test-Path $md1) { [void](Backup-File -Path $md1) }
@@ -337,6 +363,11 @@ catch {
   Write-Error $_
   exit 1
 }
+
+
+
+
+
 
 
 
