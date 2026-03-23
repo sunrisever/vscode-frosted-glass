@@ -1,4 +1,4 @@
-# VS Code Frosted Glass (Vibrancy Plugin Adapted for One Dark Pro)
+# VS Code Frosted Glass
 
 [English](README.md) | 简体中文
 
